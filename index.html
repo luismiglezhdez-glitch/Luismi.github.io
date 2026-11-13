@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portfolio de Luis Miguel González Hernández, estudiante de Desarrollo de Aplicaciones Multiplataforma.">
+  <title>Luismi González · Portfolio</title>
+  <style>
+    /* =========================================================
+       1. VARIABLES (tema oscuro por defecto)
+       ========================================================= */
+    :root {
+      --bg: #0f1115;
+      --bg-alt: #161920;
+      --card: #1c2029;
+      --border: #2a2f3a;
+      --text: #e7e9ee;
+      --muted: #9aa1ae;
+      --accent: #4ade80;
+      --accent-2: #38bdf8;
+      --radius: 14px;
+      --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --max: 1100px;
+    }
+
+    /* Tema claro (se activa con el botón) */
+    [data-theme="light"] {
+      --bg: #f7f7f4;
+      --bg-alt: #ecece6;
+      --card: #ffffff;
+      --border: #d9d9d1;
+      --text: #1a1c20;
+      --muted: #5c6270;
+      --accent: #15803d;
+      --accent-2: #0369a1;
+    }
+
+    /* =========================================================
+       2. BASE
+       ========================================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      transition: background .3s, color .3s;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container { width: min(var(--max), 92%); margin-inline: auto; }
+
+    section { padding: 96px 0; }
+    section:nth-of-type(even) { background: var(--bg-alt); }
+
+    .section-title {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      margin-bottom: 8px;
+    }
+    .section-title span { color: var(--accent); font-family: var(--mono); font-size: .8em; margin-right: 8px; }
+    .section-sub { color: var(--muted); margin-bottom: 48px; max-width: 60ch; }
+
+    /* =========================================================
+       3. CABECERA / NAVEGACIÓN
+       ========================================================= */
+    header {
+      position: sticky; top: 0; z-index: 50;
+      background: color-mix(in srgb, var(--bg) 85%, transparent);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .logo { font-family: var(--mono); font-weight: 700; font-size: 1.1rem; }
+    .logo span { color: var(--accent); }
+
+    .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+    .nav-links a { color: var(--muted); font-size: .95rem; transition: color .2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+
+    .icon-btn {
+      background: var(--card); border: 1px solid var(--border); color: var(--text);
+      width: 38px; height: 38px; border-radius: 10px; cursor: pointer; font-size: 1rem;
+      display: grid; place-items: center;
+    }
+    .menu-btn { display: none; }
+
+    /* =========================================================
+       4. HERO (portada)
+       ========================================================= */
+    .hero { padding: 120px 0 100px; }
+    .hero-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: center; }
+    .hero-tag { font-family: var(--mono); color: var(--accent); margin-bottom: 16px; }
+    .hero h1 { font-size: clamp(2.2rem, 5.5vw, 3.8rem); line-height: 1.1; margin-bottom: 16px; }
+    .hero h2 { font-size: clamp(1.1rem, 2.4vw, 1.5rem); color: var(--muted); font-weight: 500; margin-bottom: 28px; }
+    .typed { color: var(--accent-2); border-right: 2px solid var(--accent-2); padding-right: 4px; }
+    .hero p { color: var(--muted); max-width: 52ch; margin-bottom: 32px; }
+
+    .btns { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn {
+      padding: 12px 22px; border-radius: 10px; font-weight: 600; font-size: .95rem;
+      border: 1px solid var(--border); transition: transform .15s, background .2s;
+      cursor: pointer; font-family: inherit;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: var(--accent); color: #0b0d10; border-color: var(--accent); }
+    .btn-ghost { background: transparent; color: var(--text); }
+
+    /* Tarjeta "terminal" decorativa */
+    .terminal {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      font-family: var(--mono); font-size: .88rem; overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+    }
+    .terminal-bar { display: flex; gap: 6px; padding: 12px 14px; border-bottom: 1px solid var(--border); }
+    .terminal-bar i { width: 11px; height: 11px; border-radius: 50%; background: #ff5f57; }
+    .terminal-bar i:nth-child(2) { background: #febc2e; }
+    .terminal-bar i:nth-child(3) { background: #28c840; }
+    .terminal pre { padding: 18px; white-space: pre-wrap; color: var(--muted); }
+    .t-key { color: var(--accent-2); }
+    .t-str { color: var(--accent); }
+
+    /* =========================================================
+       5. SOBRE MÍ
+       ========================================================= */
+    .about-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px; }
+    .about-text p { margin-bottom: 16px; color: var(--muted); }
+    .about-text strong { color: var(--text); }
+    .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .stat {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 22px;
+    }
+    .stat b { display: block; font-size: 2rem; color: var(--accent); font-family: var(--mono); }
+    .stat span { color: var(--muted); font-size: .9rem; }
+
+    /* =========================================================
+       6. HABILIDADES
+       ========================================================= */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+    .skill-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 24px;
+    }
+    .skill-card h3 { font-size: 1.05rem; margin-bottom: 14px; display: flex; gap: 10px; align-items: center; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      font-family: var(--mono); font-size: .8rem; padding: 5px 10px; border-radius: 999px;
+      border: 1px solid var(--border); color: var(--muted);
+    }
+
+    /* =========================================================
+       7. PROYECTOS
+       ========================================================= */
+    .filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 32px; }
+    .filter {
+      padding: 8px 16px; border-radius: 999px; border: 1px solid var(--border);
+      background: transparent; color: var(--muted); cursor: pointer; font-family: inherit; font-size: .9rem;
+    }
+    .filter.active { background: var(--accent); color: #0b0d10; border-color: var(--accent); }
+
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 22px; }
+    .project {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 24px; display: flex; flex-direction: column; gap: 12px;
+      transition: transform .2s, border-color .2s;
+    }
+    .project:hover { transform: translateY(-4px); border-color: var(--accent); }
+    .project.hidden { display: none; }
+    .project-top { display: flex; justify-content: space-between; align-items: center; }
+    .project-cat { font-family: var(--mono); font-size: .75rem; color: var(--accent-2); text-transform: uppercase; letter-spacing: .05em; }
+    .project h3 { font-size: 1.15rem; }
+    .project p { color: var(--muted); font-size: .93rem; flex: 1; }
+    .project-links { display: flex; gap: 16px; font-size: .9rem; }
+    .project-links a { color: var(--accent); }
+    .project-links a:hover { text-decoration: underline; }
+
+    /* =========================================================
+       8. FORMACIÓN (línea de tiempo)
+       ========================================================= */
+    .timeline { position: relative; padding-left: 28px; border-left: 2px solid var(--border); max-width: 760px; }
+    .tl-item { position: relative; margin-bottom: 36px; }
+    .tl-item::before {
+      content: ""; position: absolute; left: -36px; top: 6px;
+      width: 14px; height: 14px; border-radius: 50%; background: var(--accent);
+      border: 3px solid var(--bg-alt);
+    }
+    .tl-date { font-family: var(--mono); color: var(--accent); font-size: .85rem; }
+    .tl-item h3 { margin: 4px 0 6px; }
+    .tl-item p { color: var(--muted); }
+
+    /* =========================================================
+       9. CONTACTO
+       ========================================================= */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 48px; }
+    .contact-list { list-style: none; display: grid; gap: 14px; }
+    .contact-list a {
+      display: flex; gap: 12px; align-items: center; padding: 14px 18px;
+      background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+      transition: border-color .2s;
+    }
+    .contact-list a:hover { border-color: var(--accent); }
+
+    form { display: grid; gap: 14px; }
+    label { font-size: .9rem; color: var(--muted); display: grid; gap: 6px; }
+    input, textarea {
+      font-family: inherit; font-size: 1rem; padding: 12px 14px; border-radius: 10px;
+      background: var(--card); color: var(--text); border: 1px solid var(--border);
+    }
+    input:focus, textarea:focus { outline: 2px solid var(--accent); border-color: transparent; }
+    textarea { resize: vertical; min-height: 130px; }
+    .error { color: #f87171; font-size: .82rem; min-height: 1em; }
+    .form-ok { color: var(--accent); font-weight: 600; }
+
+    /* =========================================================
+       10. PIE
+       ========================================================= */
+    footer { padding: 32px 0; border-top: 1px solid var(--border); color: var(--muted); font-size: .9rem; text-align: center; }
+
+    /* Botón volver arriba */
+    #toTop {
+      position: fixed; right: 20px; bottom: 20px; opacity: 0; pointer-events: none;
+      transition: opacity .3s;
+    }
+    #toTop.show { opacity: 1; pointer-events: auto; }
+
+    /* Animación al hacer scroll */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s, transform .6s; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      html { scroll-behavior: auto; }
+    }
+
+    /* =========================================================
+       11. RESPONSIVE (móvil y tablet)
+       ========================================================= */
+    @media (max-width: 860px) {
+      .hero-grid, .about-grid, .contact-grid { grid-template-columns: 1fr; }
+      .menu-btn { display: grid; }
+      .nav-links {
+        position: absolute; top: 64px; left: 0; right: 0;
+        flex-direction: column; gap: 0; background: var(--bg);
+        border-bottom: 1px solid var(--border);
+        max-height: 0; overflow: hidden; transition: max-height .3s;
+      }
+      .nav-links.open { max-height: 400px; }
+      .nav-links li { width: 100%; text-align: center; padding: 14px 0; }
+      section { padding: 72px 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===================== CABECERA ===================== -->
+  <header>
+    <nav class="container">
+      <a href="#inicio" class="logo">&lt;Luismi<span>/</span>&gt;</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#sobre-mi">Sobre mí</a></li>
+        <li><a href="#habilidades">Habilidades</a></li>
+        <li><a href="#proyectos">Proyectos</a></li>
+        <li><a href="#formacion">Formación</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+        <li><button class="icon-btn" id="themeBtn" aria-label="Cambiar tema">☀️</button></li>
+      </ul>
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Abrir menú">☰</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ===================== HERO ===================== -->
+    <section class="hero" id="inicio">
+      <div class="container hero-grid">
+        <div>
+          <p class="hero-tag">¡Hola! Soy</p>
+          <h1>Luis Miguel González Hernández</h1>
+          <h2>Desarrollador <span class="typed" id="typed">multiplataforma</span></h2>
+          <p>Estudiante de segundo de Desarrollo de Aplicaciones Multiplataforma (DAM). Me gusta entender la lógica que hay detrás del código y estoy orientando mi formación hacia el desarrollo web full stack.</p>
+          <div class="btns">
+            <a href="#proyectos" class="btn btn-primary">Ver proyectos</a>
+            <a href="#contacto" class="btn btn-ghost">Contactar</a>
+          </div>
+        </div>
+
+        <div class="terminal" aria-hidden="true">
+          <div class="terminal-bar"><i></i><i></i><i></i></div>
+<pre>const <span class="t-key">luismi</span> = {
+  ciclo: <span class="t-str">"DAM · 2º curso"</span>,
+  lenguajes: [<span class="t-str">"Java"</span>, <span class="t-str">"JavaScript"</span>, <span class="t-str">"SQL"</span>],
+  frameworks: [<span class="t-str">"JavaFX"</span>, <span class="t-str">"React Native"</span>],
+  herramientas: [<span class="t-str">"Git"</span>, <span class="t-str">"Docker"</span>, <span class="t-str">"Figma"</span>],
+  objetivo: <span class="t-str">"full stack"</span>,
+  aprendiendo: <span class="t-key">true</span>
+};</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SOBRE MÍ ===================== -->
+    <section id="sobre-mi">
+      <div class="container about-grid reveal">
+        <div class="about-text">
+          <h2 class="section-title"><span>01.</span>Sobre mí</h2>
+          <p>Me llamo <strong>Luis Miguel</strong>, aunque todo el mundo me llama <strong>Luismi</strong>. Terminé primero de <strong>DAM</strong> y ahora estoy cursando segundo.</p>
+          <p>En primero aprendí a programar con <strong>Java</strong>, y este curso estoy trabajando con <strong>JavaFX</strong>, acceso a datos con <strong>JDBC y MySQL</strong>, programación concurrente con <strong>hilos</strong>, apps móviles con <strong>React Native y Expo</strong>, diseño de interfaces en <strong>Figma</strong> y sistemas de gestión empresarial con <strong>Odoo</strong>.</p>
+          <p>Mi objetivo es convertirme en un buen desarrollador <strong>full stack</strong>: escribir código limpio, organizado (patrón MVC, DAO, tests) y que funcione en cualquier sistema operativo.</p>
+        </div>
+        <div class="stats">
+          <div class="stat"><b data-count="2">0</b><span>cursos de DAM</span></div>
+          <div class="stat"><b data-count="8">0</b><span>proyectos destacados</span></div>
+          <div class="stat"><b data-count="3">0</b><span>sistemas operativos (Win · Mac · Linux)</span></div>
+          <div class="stat"><b data-count="10">0</b><span>+ tecnologías trabajadas</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== HABILIDADES ===================== -->
+    <section id="habilidades">
+      <div class="container reveal">
+        <h2 class="section-title"><span>02.</span>Habilidades</h2>
+        <p class="section-sub">Tecnologías y herramientas con las que he trabajado en el ciclo.</p>
+        <div class="skills-grid">
+          <div class="skill-card">
+            <h3>☕ Lenguajes</h3>
+            <div class="chips"><span class="chip">Java</span><span class="chip">JavaScript</span><span class="chip">TypeScript</span><span class="chip">SQL</span><span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">XML</span></div>
+          </div>
+          <div class="skill-card">
+            <h3>🖥️ Escritorio y móvil</h3>
+            <div class="chips"><span class="chip">JavaFX</span><span class="chip">Scene Builder</span><span class="chip">React</span><span class="chip">React Native</span><span class="chip">Expo</span></div>
+          </div>
+          <div class="skill-card">
+            <h3>🗄️ Datos</h3>
+            <div class="chips"><span class="chip">MySQL</span><span class="chip">JDBC</span><span class="chip">phpMyAdmin</span><span class="chip">Ficheros CSV</span><span class="chip">Serialización</span><span class="chip">Patrón DAO</span></div>
+          </div>
+          <div class="skill-card">
+            <h3>🛠️ Herramientas</h3>
+            <div class="chips"><span class="chip">Git</span><span class="chip">GitHub</span><span class="chip">Docker</span><span class="chip">Maven</span><span class="chip">IntelliJ IDEA</span><span class="chip">JUnit 5</span></div>
+          </div>
+          <div class="skill-card">
+            <h3>🐧 Sistemas y servidores</h3>
+            <div class="chips"><span class="chip">Ubuntu</span><span class="chip">VirtualBox</span><span class="chip">Nginx</span><span class="chip">Apache</span><span class="chip">SSL</span></div>
+          </div>
+          <div class="skill-card">
+            <h3>🎨 Diseño y gestión</h3>
+            <div class="chips"><span class="chip">Figma</span><span class="chip">Wireframes</span><span class="chip">Sketching</span><span class="chip">Odoo (ERP-CRM)</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PROYECTOS ===================== -->
+    <section id="proyectos">
+      <div class="container reveal">
+        <h2 class="section-title"><span>03.</span>Proyectos</h2>
+        <p class="section-sub">Una selección de los trabajos que he hecho durante el ciclo. Pulsa en los filtros para verlos por categoría.</p>
+
+        <div class="filters" id="filters">
+          <button class="filter active" data-filter="todos">Todos</button>
+          <button class="filter" data-filter="escritorio">Escritorio</button>
+          <button class="filter" data-filter="datos">Datos</button>
+          <button class="filter" data-filter="movil">Móvil</button>
+          <button class="filter" data-filter="diseno">Diseño</button>
+          <button class="filter" data-filter="sistemas">Sistemas</button>
+        </div>
+
+        <div class="projects-grid" id="projectsGrid">
+          <article class="project" data-cat="escritorio">
+            <div class="project-top"><span class="project-cat">Escritorio</span><span>🧮</span></div>
+            <h3>CalculadoraFX</h3>
+            <p>Calculadora con JavaFX y Maven, refactorizada al patrón Modelo-Vista-Controlador y con sus primeros tests unitarios en JUnit 5.</p>
+            <div class="chips"><span class="chip">JavaFX</span><span class="chip">MVC</span><span class="chip">JUnit 5</span></div>
+            <div class="project-links"><a href="https://github.com/luismiglezhdez-glitch" target="_blank" rel="noopener">Código →</a></div>
+          </article>
+
+          <article class="project" data-cat="escritorio datos">
+            <div class="project-top"><span class="project-cat">Escritorio · Datos</span><span>✖️</span></div>
+            <h3>TablaMultiplicarGuardarLeer</h3>
+            <p>Aplicación JavaFX que genera la tabla de multiplicar de un número y permite guardarla en un fichero y volver a leerla, con tests.</p>
+            <div class="chips"><span class="chip">JavaFX</span><span class="chip">Ficheros</span><span class="chip">Tests</span></div>
+            <div class="project-links"><a href="https://github.com/luismiglezhdez-glitch" target="_blank" rel="noopener">Código →</a></div>
+          </article>
+
+          <article class="project" data-cat="escritorio datos">
+            <div class="project-top"><span class="project-cat">Escritorio · Datos</span><span>📐</span></div>
+            <h3>ReaderYWriter</h3>
+            <p>Aplicación JavaFX que trabaja con un rectángulo y guarda y recupera su base y altura en un fichero CSV.</p>
+            <div class="chips"><span class="chip">JavaFX</span><span class="chip">CSV</span><span class="chip">Reader/Writer</span></div>
+            <div class="project-links"><a href="https://github.com/luismiglezhdez-glitch" target="_blank" rel="noopener">Código →</a></div>
+          </article>
+
+          <article class="project" data-cat="datos">
+            <div class="project-top"><span class="project-cat">Datos</span><span>🗄️</span></div>
+            <h3>ConexionBD</h3>
+            <p>Proyecto Maven que conecta un programa Java con una base de datos MySQL mediante JDBC para consultar y modificar registros.</p>
+            <div class="chips"><span class="chip">Java</span><span class="chip">JDBC</span><span class="chip">MySQL</span></div>
+            <div class="project-links"><a href="https://github.com/luismiglezhdez-glitch" target="_blank" rel="noopener">Código →</a></div>
+          </article>
+
+          <article class="project" data-cat="escritorio">
+            <div class="project-top"><span class="project-cat">Escritorio</span><span>🧵</span></div>
+            <h3>Ejercicios de hilos</h3>
+            <p>Ejercicios de programación concurrente en Java y JavaFX: creación de hilos, sincronización y actualización de la interfaz sin bloquearla.</p>
+            <div class="chips"><span class="chip">Java</span><span class="chip">Threads</span><span class="chip">JavaFX</span></div>
+            <div class="project-links"><a href="https://github.com/luismiglezhdez-glitch" target="_blank" rel="noopener">Código →</a></div>
+          </article>
+
+          <article class="project" data-cat="movil">
+            <div class="project-top"><span class="project-cat">Móvil</span><span>📱</span></div>
+            <h3>Apps con React Native</h3>
+            <p>Ejercicios de los dossiers de React y React Native con Expo: componentes, props, estado y navegación entre pantallas.</p>
+            <div class="chips"><span class="chip">React Native</span><span class="chip">Expo</span><span class="chip">JS</span></div>
+            <div class="project-links"><a href="https://github.com/luismiglezhdez-glitch" target="_blank" rel="noopener">Código →</a></div>
+          </article>
+
+          <article class="project" data-cat="diseno">
+            <div class="project-top"><span class="project-cat">Diseño</span><span>🎨</span></div>
+            <h3>DST factory · Diseño de interfaces</h3>
+            <p>Proyecto de curso para una consultora informática: product brief, sketch en papel de 4 pantallas y mockups de escritorio en Figma con componentes.</p>
+            <div class="chips"><span class="chip">Figma</span><span class="chip">Wireframes</span><span class="chip">UX</span></div>
+            <div class="project-links"><a href="https://www.figma.com/" target="_blank" rel="noopener">Ver diseño →</a></div>
+          </article>
+
+          <article class="project" data-cat="sistemas">
+            <div class="project-top"><span class="project-cat">Sistemas</span><span>🐧</span></div>
+            <h3>Servidores web en Ubuntu</h3>
+            <p>Prácticas en máquinas virtuales Ubuntu con VirtualBox: instalación y configuración de Nginx y Apache, y certificados SSL.</p>
+            <div class="chips"><span class="chip">Ubuntu</span><span class="chip">Nginx</span><span class="chip">Apache</span></div>
+          </article>
+
+          <article class="project" data-cat="sistemas">
+            <div class="project-top"><span class="project-cat">Sistemas</span><span>🏢</span></div>
+            <h3>Implantación de Odoo</h3>
+            <p>Definición y configuración inicial de un proyecto de ERP-CRM con Odoo para la gestión de una empresa.</p>
+            <div class="chips"><span class="chip">Odoo</span><span class="chip">ERP</span><span class="chip">CRM</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== FORMACIÓN ===================== -->
+    <section id="formacion">
+      <div class="container reveal">
+        <h2 class="section-title"><span>04.</span>Formación</h2>
+        <p class="section-sub">Mi recorrido en el ciclo formativo de grado superior.</p>
+        <div class="timeline">
+          <div class="tl-item">
+            <span class="tl-date">2026 — actualidad</span>
+            <h3>2º Desarrollo de Aplicaciones Multiplataforma</h3>
+            <p>Acceso a datos, programación multimedia y dispositivos móviles, programación de servicios y procesos, diseño de interfaces, sistemas de gestión empresarial y FOL.</p>
+          </div>
+          <div class="tl-item">
+            <span class="tl-date">2025 — 2026</span>
+            <h3>1º Desarrollo de Aplicaciones Multiplataforma</h3>
+            <p>Programación en Java, bases de datos, sistemas informáticos, lenguajes de marcas y entornos de desarrollo.</p>
+          </div>
+          <div class="tl-item">
+            <span class="tl-date">Por mi cuenta</span>
+            <h3>Formación complementaria</h3>
+            <p>Git, GitHub y Docker, y aprendizaje continuo orientado al desarrollo web full stack.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CONTACTO ===================== -->
+    <section id="contacto">
+      <div class="container contact-grid reveal">
+        <div>
+          <h2 class="section-title"><span>05.</span>Contacto</h2>
+          <p class="section-sub">¿Tienes alguna propuesta o quieres ver más de mi trabajo? Escríbeme.</p>
+          <ul class="contact-list">
+            <li><a href="mailto:tu-correo@ejemplo.com">✉️ tu-correo@ejemplo.com</a></li>
+            <li><a href="https://github.com/luismiglezhdez-glitch" target="_blank" rel="noopener">🐙 GitHub</a></li>
+            <li><a href="https://www.linkedin.com/" target="_blank" rel="noopener">💼 LinkedIn</a></li>
+          </ul>
+        </div>
+
+        <form id="contactForm" novalidate>
+          <label>Nombre
+            <input type="text" id="nombre" placeholder="Tu nombre">
+            <span class="error" id="errNombre"></span>
+          </label>
+          <label>Correo electrónico
+            <input type="email" id="email" placeholder="tucorreo@ejemplo.com">
+            <span class="error" id="errEmail"></span>
+          </label>
+          <label>Mensaje
+            <textarea id="mensaje" placeholder="Cuéntame..."></textarea>
+            <span class="error" id="errMensaje"></span>
+          </label>
+          <button type="submit" class="btn btn-primary">Enviar mensaje</button>
+          <p class="form-ok" id="formOk" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      © <span id="year"></span> Luis Miguel González Hernández · Hecho con HTML, CSS y JavaScript
+    </div>
+  </footer>
+
+  <button class="icon-btn" id="toTop" aria-label="Volver arriba">↑</button>
+
+  <script>
+    // ---------- 1. Menú móvil ----------
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.getElementById('navLinks');
+    menuBtn.addEventListener('click', () => navLinks.classList.toggle('open'));
+    navLinks.querySelectorAll('a').forEach(a =>
+      a.addEventListener('click', () => navLinks.classList.remove('open'))
+    );
+
+    // ---------- 2. Tema claro / oscuro (se recuerda) ----------
+    const themeBtn = document.getElementById('themeBtn');
+    function setTheme(theme) {
+      document.documentElement.dataset.theme = theme;
+      themeBtn.textContent = theme === 'light' ? '🌙' : '☀️';
+      try { localStorage.setItem('theme', theme); } catch (e) {}
+    }
+    let saved = 'dark';
+    try { saved = localStorage.getItem('theme') || 'dark'; } catch (e) {}
+    setTheme(saved);
+    themeBtn.addEventListener('click', () =>
+      setTheme(document.documentElement.dataset.theme === 'light' ? 'dark' : 'light')
+    );
+
+    // ---------- 3. Texto que se escribe solo ----------
+    const words = ['multiplataforma', 'Java', 'web full stack', 'móvil'];
+    const typed = document.getElementById('typed');
+    let w = 0, c = 0, deleting = false;
+    function type() {
+      const word = words[w];
+      typed.textContent = word.slice(0, c);
+      if (!deleting && c < word.length) c++;
+      else if (deleting && c > 0) c--;
+      else if (!deleting) { deleting = true; return setTimeout(type, 1400); }
+      else { deleting = false; w = (w + 1) % words.length; }
+      setTimeout(type, deleting ? 50 : 100);
+    }
+    type();
+
+    // ---------- 4. Filtro de proyectos ----------
+    const filters = document.querySelectorAll('.filter');
+    const projects = document.querySelectorAll('.project');
+    filters.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filters.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const f = btn.dataset.filter;
+        projects.forEach(p => {
+          const cats = p.dataset.cat.split(' ');
+          p.classList.toggle('hidden', f !== 'todos' && !cats.includes(f));
+        });
+      });
+    });
+
+    // ---------- 5. Animaciones al hacer scroll + contadores ----------
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('visible');
+        entry.target.querySelectorAll('[data-count]').forEach(animateCount);
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    function animateCount(el) {
+      const target = Number(el.dataset.count);
+      let n = 0;
+      const step = () => {
+        n++;
+        el.textContent = n;
+        if (n < target) setTimeout(step, 80);
+      };
+      step();
+    }
+
+    // ---------- 6. Enlace activo en el menú ----------
+    const sections = document.querySelectorAll('main section[id]');
+    const links = document.querySelectorAll('.nav-links a');
+    const toTop = document.getElementById('toTop');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => { if (scrollY >= s.offsetTop - 120) current = s.id; });
+      links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + current));
+      toTop.classList.toggle('show', scrollY > 500);
+    });
+    toTop.addEventListener('click', () => scrollTo({ top: 0 }));
+
+    // ---------- 7. Validación del formulario ----------
+    document.getElementById('contactForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const nombre = document.getElementById('nombre').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const mensaje = document.getElementById('mensaje').value.trim();
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+      document.getElementById('errNombre').textContent = nombre ? '' : 'Escribe tu nombre.';
+      document.getElementById('errEmail').textContent = emailOk ? '' : 'Introduce un correo válido.';
+      document.getElementById('errMensaje').textContent =
+        mensaje.length >= 10 ? '' : 'El mensaje debe tener al menos 10 caracteres.';
+
+      const ok = document.getElementById('formOk');
+      if (nombre && emailOk && mensaje.length >= 10) {
+        // No hay servidor detrás: solo validamos los datos.
+        ok.textContent = `¡Gracias, ${nombre}! Datos correctos. (Formulario de demostración: para enviarlo de verdad, escríbeme al correo de la izquierda.)`;
+        e.target.reset();
+      } else {
+        ok.textContent = '';
+      }
+    });
+
+    // ---------- 8. Año del pie ----------
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

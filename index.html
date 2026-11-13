@@ -479,7 +479,7 @@
           <h2 class="section-title"><span>05.</span>Contacto</h2>
           <p class="section-sub">¿Tienes alguna propuesta o quieres ver más de mi trabajo? Escríbeme.</p>
           <ul class="contact-list">
-            <li><a href="mailto:luismiglezhdez@gmail.com">✉️ luismiglezhdez@gmail.com</a></li>
+            <li><a href="#contacto" id="mailLink">✉️ Envíame un correo</a></li>
             <li><a href="https://github.com/luismiglezhdez-glitch" target="_blank" rel="noopener">🐙 GitHub</a></li>
             <li><a href="https://www.linkedin.com/" target="_blank" rel="noopener">💼 LinkedIn</a></li>
           </ul>
@@ -615,12 +615,24 @@
 
       const ok = document.getElementById('formOk');
       if (nombre && emailOk && mensaje.length >= 10) {
-        // No hay servidor detrás: solo validamos los datos.
-        ok.textContent = `¡Gracias, ${nombre}! Datos correctos. (Formulario de demostración: para enviarlo de verdad, escríbeme al correo de la izquierda.)`;
+        // Abre el programa de correo del visitante con el mensaje ya escrito
+        const asunto = encodeURIComponent(`Contacto desde el portfolio: ${nombre}`);
+        const cuerpo = encodeURIComponent(`${mensaje}\n\n${nombre} (${email})`);
+        location.href = `mailto:${miCorreo()}?subject=${asunto}&body=${cuerpo}`;
+        ok.textContent = `¡Gracias, ${nombre}! Se abrirá tu correo con el mensaje listo para enviar.`;
         e.target.reset();
       } else {
         ok.textContent = '';
       }
+    });
+
+    // El correo se monta por partes para que los robots de spam no lo lean del código
+    function miCorreo() {
+      return ['luismiglezhdez', 'gmail.com'].join('@');
+    }
+    document.getElementById('mailLink').addEventListener('click', e => {
+      e.preventDefault();
+      location.href = 'mailto:' + miCorreo();
     });
 
     // ---------- 8. Año del pie ----------
